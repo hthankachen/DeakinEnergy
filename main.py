@@ -246,7 +246,7 @@ def forecast():
 		global line_chart
 		line_chart = pygal.Line()
 		line_chart.x_label = 'Demand'
-		line_chart.title = 'BroEnergy demand- Actual vs Predicted'
+		line_chart.title = 'Energy demand- Actual vs Predicted'
 		line_chart.add('Actual Energy Demand', minmaxscaler.inverse_transform(yTest.reshape(-1,1)).flatten())
 		line_chart.add('Predicted Energy Demand',  minmaxscaler.inverse_transform(y_pred.reshape(-1,1)).flatten() )
 		line_chart = line_chart.render_data_uri()

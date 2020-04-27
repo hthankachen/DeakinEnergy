@@ -1,4 +1,4 @@
-import os, sys
+import os, sys, platform
 #import magic
 import urllib.request
 from app import app
@@ -36,6 +36,7 @@ image_name ="default"
 selected_algorithm = ""
 line_chart = ""
 selected_optimizer = ""
+selected_file = ""
 RMSE = 0
 
 "__________________________________________________________________________________________________"
@@ -107,7 +108,7 @@ def baseline(history):
 
 def forecast():
 
-	global selected_algorithm, selected_optimizer, image_name, line_chart
+	global selected_algorithm, selected_optimizer, image_name, line_chart, selected_file
 	selected_algorithm = request.form.get('alist')
 	selected_optimizer = request.form.get('olist')
 	image_name = "default"
@@ -124,6 +125,9 @@ def forecast():
 	print(selected_file)
 
 	file_path = "data/" + selected_file
+	if(platform.system() == "Windows"):
+		file_path = "data\\" + selected_file
+	
 	print("file path - {}".format(file_path))
 	energyData=pd.read_csv(file_path,header=0)
 
@@ -134,10 +138,16 @@ def forecast():
 		energyData=energyData.drop(['REGION'],axis=1)
 
 		energyData=energyData.drop(['PERIODTYPE'],axis=1)
-		energyData=energyData.drop(['RRP( Regional reference price)'],axis=1)
+		try:
+			energyData=energyData.drop(['RRP( Regional reference price)'],axis=1)
+			energyData=energyData.drop(['RRP'],axis=1)
+			energyData=energyData.rename(columns={"RRP( Regional reference price)" : "RRP"})
+		except:
+			print('An error occured')
+		
 		#energyData=energyData.drop(['TOTALDEMAND'],axis=1)
 
-		energyData=energyData.rename(columns={"RRP( Regional reference price)" : "RRP"})
+		
 
 		energyData.tail()
 
@@ -192,9 +202,11 @@ def forecast():
 
 		simple_lstm_model.compile(optimizer='adam', loss='mae')
 
-		print(simple_lstm_model.predict(x_val_uni).shape)
+		if(platform.system() == 'Windows'):
+			EVALUATION_INTERVAL = 200
+		else:
+			EVALUATION_INTERVAL = 1319
 
-		EVALUATION_INTERVAL = 200
 		EPOCHS = 10
 
 		simple_lstm_model.fit(x_train_uni,y_train_uni, epochs=EPOCHS,
@@ -456,6 +468,7 @@ def forecast():
 
 		data_file.head(50)
 
+
 		# Create new column for each hour of day, assign 1 if index.hour is corresponding hour of column, 0 otherwise
 
 		for i in range(0,48):
@@ -487,10 +500,24 @@ def forecast():
 
 
 		# Define training and testing periods
-		train_start = '1-march-2019'
-		train_end = '23-march-2019'
-		test_start = '24-march-2019'
-		test_end = '1-april-2019'
+		if(selected_file == "PRICE_AND_DEMAND_201811_VIC1.csv"):
+			train_start = '1-november-2018'
+			train_end = '23-november-2018'
+			test_start = '24-november-2018'
+			test_end = '1-december-2018'
+		elif(selected_file == "PRICE_AND_DEMAND_201903_VIC1.csv"):
+			train_start = '1-march-2019'
+			train_end = '23-march-2019'
+			test_start = '24-march-2019'
+			test_end = '1-april-2019'
+		elif(selected_file == "PRICE_AND_DEMAND_201905_VIC1.csv"):
+			train_start = '1-may-2019'
+			train_end = '23-may-2019'
+			test_start = '24-may-2019'
+			test_end = '1-june-2019'
+
+		print(train_start,train_end,test_start,test_end)
+		
 
 		# Split up into training and testing sets (still in Pandas dataframes)
 
@@ -528,22 +555,32 @@ def forecast():
 		### Plot daily total kWh over testing period
 		y_test_barplot_df = pd.DataFrame(y_test_df,columns=['TOTALDEMAND'])
 		y_test_barplot_df['Predicted'] = predict_y['TOTALDEMAND']
+		# print(y_test_barplot_df);
 
-		fig = plt.figure(figsize=[11,7])
-		ax = fig.add_subplot(111)
-		y_test_barplot_df.plot(kind='line',ax=ax,color=['red','blue'])
-		ax.grid(False)
-		ax.set_ylabel('Electricity Demand(kWh)', fontsize=fontsize)
-		ax.set_xlabel('')
-		# Pandas/Matplotlib bar graphs convert xaxis to floats, so need a hack to get datetimes back
-		ax.set_xticklabels([dt.strftime('%b %d') for dt in y_test_df.index.to_pydatetime()],rotation=0, fontsize=fontsize)
-		plt.title('Energy demand- Actual vs Predicted ')
-		plt.legend(fontsize=fontsize)
+		# fig = plt.figure(figsize=[11,7])
+		# ax = fig.add_subplot(111)
+		# y_test_barplot_df.plot(kind='line',ax=ax,color=['red','blue'])
+		# ax.grid(False)
+		# ax.set_ylabel('Electricity Demand(kWh)', fontsize=fontsize)
+		# ax.set_xlabel('')
+		# # Pandas/Matplotlib bar graphs convert xaxis to floats, so need a hack to get datetimes back
+		# #ax.set_xticklabels([dt.strftime('%b %d') for dt in y_test_df.index.to_pydatetime()],rotation=0, fontsize=fontsize)
+		# plt.title('Energy demand- Actual vs Predicted ')
+		# plt.legend(fontsize=fontsize)
 
-		val = random.randrange(1,500)
-		global image_name
-		image_name = "chart"+str(val)+'.png'
-		plt.savefig(os.path.join(os.getcwd(), 'static/images',image_name), format='png')
+		# val = random.randrange(1,500)
+		# global image_name
+		# image_name = "chart"+str(val)+'.png'
+		# plt.savefig(os.path.join(os.getcwd(), 'static/images',image_name), format='png')
+
+		global line_chart
+		line_chart = pygal.Line()
+		line_chart.y_label = 'Demand'
+		line_chart.x_labels = [dt.strftime('%b %d') for dt in y_test_df.index.to_pydatetime()]
+		line_chart.title = 'Energy demand- Actual vs Predicted'
+		line_chart.add('Total Demand', y_test_barplot_df['TOTALDEMAND'])
+		line_chart.add('Predicted',  y_test_barplot_df['Predicted'] )
+		line_chart = line_chart.render_data_uri()
 
 		from sklearn.metrics import mean_squared_error
 		from math import sqrt
