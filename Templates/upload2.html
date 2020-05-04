@@ -6,21 +6,125 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
 </head>
+
+<style>
+body{
+font-family: 'Poppins', sans-serif;
+}
+.header{
+    background: #35477d;
+    padding:20px;
+    border-bottom: 1px solid #35477d;
+    font-size: 25px !important;
+    color: #fff;
+	text-align:center;
+    font-weight: normal;
+}
+p{
+ line-height:26px;
+}
+.headingt {
+    position: relative;
+    margin: 0 0 20px;
+    color: #181f4e;
+    padding-bottom: 5px;
+    font-weight: 600;
+    font-size: 26px;
+    line-height: 28px;
+    /* padding-left: 20px; */
+    padding-top: 20px;
+    padding-bottom: 6px;
+}
+.headingt:before {
+    content: " ";
+    position: absolute;
+    left: 40;
+    bottom: -2px;
+    width: 90px;
+    height: 3px;
+    background-color: #0a94f3 !important;
+}
+.logo  {
+text-transform:uppercase;
+margin:0px;
+}
+.footer{
+ background: #35477d;
+    padding:10px;
+    border-bottom: 1px solid #35477d; 
+    color: #fff;
+	text-align:center;
+    font-weight: 500;
+}
+footer p{
+ margin-bottom:0px;
+}
+.body-main {
+ background: #ffffff;
+    box-shadow: -50px 0px 100px -80px #000000, 50px 0px 100px -80px #000000;
+
+}
+.btn, .form-control {
+     border-radius: 0px;
+}
+.tab-content{
+border: 1px solid #e6e4e4;
+    padding: 10px;margin-bottom:20px;
+}
+ul.nav-tabs {border:0px;}
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover{background:#35477d;border-bottom:3px solid #0a94f3;color:#fff;}
+ul.nav-tabs li a , .nav>li>a:focus, .nav>li>a:hover{background:#35477d;color:#fff;}
+</style>
 <body onload = "option_retainer()">
 	<section>
-		<header>
-			<div class = "container">
-				<h1 class = "logo"> VIC electricity demand forcasting </h1>
+	<div class="contianer">
+	<header>
+			<div class = "container header">
+	<div  class="container">
+		       <div class="row">
+			        <div class="col-xs-12 col-sm-12 col-md-12 col=lg-12">
+		
+	<h1 class = "logo"> VIC electricity demand forcasting </h1>
+			</div>
+			</div>
 			</div>
 		</header>
+		</div>
 	</section>
 
+	
 	<section>
-		<article class="article1">
-			<h3>Upload new input file</h3>
-			<p>
-				{% with messages = get_flashed_messages() %}
+		<div  class="container body-main">
+		       <div class="row">
+			        <div class="col-xs-12 col-sm-12 col-md-12 col=lg-12">
+						<p>
+			
+			<h3 class="headingt">About VIC Electricity Demand Forecasting</h3>
+			Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+</p>
+					</div>
+			   </div>
+	
+	
+	<ul class="nav nav-tabs">
+  <li class="active"><a data-toggle="tab" href="#home">Home</a></li>
+  <li><a data-toggle="tab" href="#menu1">Predictions</a></li>
+  <li><a data-toggle="tab" href="#menu2">Monthly Trend</a></li>
+  <li><a data-toggle="tab" href="#menu3">Festival Demand</a></li>
+</ul>
+
+<div class="tab-content">
+  <div id="home" class="tab-pane fade in active">
+    
+		       <div class="row">
+			        <div class="col-xs-12 col-sm-12 col-md-12 col=lg-12">
+			<h3 class="headingt">Upload new input file</h3>
+			
+
+				<!-- {% with messages = get_flashed_messages() %}
 				  {% if messages %}
 					<ul class=flashes>
 					{% for message in messages %}
@@ -28,92 +132,206 @@
 					{% endfor %}
 					</ul>
 				  {% endif %}
-				{% endwith %}
-			</p>
+				{% endwith %} -->
+			
+			</div>
+			
+			    <div class="col-xs-12 col-sm-12 col-md-12 col=lg-12">
+					<div class="alert alert-danger text-center"><strong>Upload Failed</strong> </div>
+					<div class="alert alert-success text-center"><strong>Upload success</strong> </div>
+			</div>
 			<form method="post" action="/" enctype="multipart/form-data">
-				<dl>
-					<p>
-						<table>
-							<tr>
-								<td>
-									<input type="file" name="files[]" multiple="true" autocomplete="off" required>
-								</td>
-								<td>
-									<input type="submit" value="Submit">
-								</td>
-							</tr>
-						</table>
-					</p>
-					<h3> (Or) </h3>
-				</dl>
+					
+					<div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+					<input type="file" name="files[]" multiple="true" autocomplete="off" required class="form-control">
+					</div>
+					
+					<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+					<input type="submit" value="Submit" class="btn btn-success">
+					</div>
+	
 			</form>
+			</div>
+			<div class="row" style="margin-top:30px; margin-bottom:30px;">
+			
 			<form action="/forecast" method = "POST" enctype="multipart/form-data">
-				<p>
-					<select id = "filelist" name='flist'>
+			
+					<div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+						<div class="form-group">
+						  <label>select any one uploaded file</label>
+						<select id = "filelist" name='flist' class="form-control">
 							<option value = "default" selected>Please select any one uploaded file</option>
 							{% for file in filenames %}
 							<option value = "{{file}}">{{file}}</option>
 							{% endfor %}
 					</select>
-					{% if error %}
+				<p>	{% if error %}
 							<p style="color:#FF0000";> Please select an input file from dropdown to process </p>
 					{% endif %}
 				</p>
-				<p style="font-family: Arial"> Select Algorithm :&nbsp;
-					<select id = "algolist" name='alist'>
+					</div>
+					</div>
+					
+					<div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+					<div class="form-group">
+						  <label>Select Algorithm</label>
+						<select id = "algolist" name='alist' class="form-control">
 							<option id="LSTM" value = "LSTM" selected> LSTM </option>
 							<option id="LSTM2" value="LSTM2"> LSTM configurable</option>
 							<option id="GB"   value = "Gradient_Booster"> Gradient Booster </option>
 							<option id="DT"   value = "Decision_Tree"> Decision Tree </option>
 							<option id="SVM"   value = "SVM"> SVM </option>
 					</select>
-				</p>
-			<p style="font-family: Arial"> Select Optimizer :&nbsp;
-				<select id = "optimizerlist" name='olist'>
-						<option id="adam" value = "adam" selected> Adam </option>
-						<option id="rmsprop" value="rmsprop"> RMSprop</option>
-						<option id="sgd" value="sgd"> SGD</option>
-				</select>
-			</p>
-				<br>
-				<input type="submit" value="Train and Forecast">
+					</div>
+					</div>
+	 
+						<div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+					<input type="submit" value="Train and Forecast" class="btn btn-success" style="margin-top:25px;">
+					</div>
+			
 			</form>
-		</article>
-	</section>
-	<section>
-			{% if selected_algorithm > " " %}
-			<h3 style = "text-align:center"> Algorithm : {{selected_algorithm}}</h3>
-			{% endif %}
-
-			{%if line_chart %}
-				<embed type="image/svg+xml" src='{{line_chart|safe}}' style='max-width:750px' />
-			{% else %}
-            	<img src="../static/images/{{image_name}}" class="center">
-            {% endif %}
-
-            {% if selected_algorithm > " " %}
-            <h3 style = "text-align:center"> Root Mean Square Error value : {{RMSE}}<h3>
-            {% endif %}
+			</div>		
+  </div>
+  
+  <div id="menu1" class="tab-pane fade">
+	  <div class="col-md-12">
+	  	<div class="col-xs-12 col-sm-12 col-md-6 col=lg-12">
+	  		{% if selected_algorithm > " " %}
+	  		<h3 class="headingt"> Algorithm : {{selected_algorithm}}</h3>
+	  		{% endif %}
+	  		{%if line_chart %}
+	  		<embed type="image/svg+xml" src='{{line_chart|safe}}' style='max-width:750px' />
+	  		{% endif %}
+	  		{% if selected_algorithm > " " %}
+	  		<h3 class="headingt"> Root Mean Square Error value : {{RMSE}}<h3>
+	  				{% endif %}
+		  </div>
+		  <div class="col-xs-12 col-sm-12 col-md-6 col=lg-12">
+		  	{% if selected_algorithm > " " %}
+		  	<h3 class="headingt"> Algorithm : {{selected_algorithm}}</h3>
+		  	{% endif %}
+		  	{%if line_chart %}
+		  	<embed type="image/svg+xml" src='{{line_chart|safe}}' style='max-width:750px' />
+		  	{% endif %}
+		  	{% if selected_algorithm > " " %}
+		  	<h3 class="headingt"> Root Mean Square Error value : {{RMSE}}<h3>
+		  			{% endif %}
+		  </div>
+	  </div>
+    <h3>Menu 1</h3>
+    <p>Monthly trend will be displayed over here</p>
+  </div>
+  <div id="menu2" class="tab-pane fade">
+	  <div class="col-md-12">
+		<div class="form-group col-md-4">
+			<label>Select Month</label>
+			<select id="month" name='month' class="form-control">
+				<option value=''>--Select Month--</option>
+				<option selected value='1'>Janaury</option>
+				<option value='2'>February</option>
+				<option value='3'>March</option>
+				<option value='4'>April</option>
+				<option value='5'>May</option>
+				<option value='6'>June</option>
+				<option value='7'>July</option>
+				<option value='8'>August</option>
+				<option value='9'>September</option>
+				<option value='10'>October</option>
+				<option value='11'>November</option>
+				<option value='12'>December</option>
+			</select>
+		</div>
+	  </div>
+    <h3>Menu 2</h3>
+    <p>Energy demand for a festival for 5 states will be displayed here</p>
+  </div>
+    <div id="menu3" class="tab-pane fade">
+		<div class="col-md-12">
+			<div class="form-group col-md-3">
+				<label>Select Month</label>
+				<select id="month" name='month' class="form-control">
+					<option value=''>--Select Month--</option>
+					<option selected value='1'>Janaury</option>
+					<option value='2'>February</option>
+					<option value='3'>March</option>
+					<option value='4'>April</option>
+					<option value='5'>May</option>
+					<option value='6'>June</option>
+					<option value='7'>July</option>
+					<option value='8'>August</option>
+					<option value='9'>September</option>
+					<option value='10'>October</option>
+					<option value='11'>November</option>
+					<option value='12'>December</option>
+				</select>
+			</div>
+			<div class="form-group col-md-3">
+				<label>Select Year</label>
+				<select id="year" name='year' class="form-control">
+				</select>
+			</div>
+			<div class="form-group col-md-3">
+				<label>Select Festival</label>
+				<select id="festival" name='festival' class="form-control">
+					<option id="xmas" value="xmas"> Christhmas</option>
+					<option id="aus_day" value="aus_day"> Australia Day </option>
+				</select>
+			</div>
+			<div class="form-group col-md-3">
+				<label>Select Algorithm</label>
+				<select id="algorithm_fest" name='algorithm_fest' class="form-control">
+					<option value=''>--Select Algorithm--</option>
+					<option id="LSTM" value="LSTM" selected> LSTM </option>
+					<option id="LSTM2" value="LSTM2"> LSTM configurable</option>
+					<option id="GB" value="Gradient_Booster"> Gradient Booster </option>
+					<option id="DT" value="Decision_Tree"> Decision Tree </option>
+					<option id="SVM" value="SVM"> SVM </option>
+				</select>
+			</div>
+			
+		</div>
+    <h3>Menu 2</h3>
+    <p>Energy demand for a festival for 5 states will be displayed here</p>
+  </div>
+</div>
+	
+	
+	 
+	
 	</section>
 	<section class ="article2">
 		<footer>
-			<div class="container">
+			<div class="container  footer">
+			<div class="row">
   		 		<p> A project by Deakin Energy Tribe</p>
+  		 	</div>
   		 	</div>
 		</footer>
 	</section>
-	<script>
+	<script type="text/javascript">
 
 		function option_retainer() {
 			var algorithm = '{{ selected_algorithm }}';
 			if (algorithm > " ") {
 				document.getElementById(algorithm).selected = 'selected';
 			}
-			var optimizer = '{{ selected_optimizer }}' ;
-			if(optimizer > " ") {
-				document.getElementById(optimizer).selected = 'selected';
-			}
 		}
+
+		window.onload = function () {
+			//Reference the DropDownList.
+			var year = document.getElementById("year");
+
+			//Determine the Current Year.
+			var currentYear = (new Date()).getFullYear();
+
+			//Loop and add the Year values to DropDownList.
+			for (var i = 2000; i <= currentYear; i++) {
+				var option = document.createElement("option");
+				option.innerHTML = i;
+				option.value = i;
+				year.appendChild(option);
+			}
+		};
 
 	</script>
 </body>
